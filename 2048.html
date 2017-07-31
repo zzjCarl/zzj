@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{margin: 0;padding: 0;}
+			#main{
+				position: relative;
+				left: 50%;
+				margin-left: -235px;
+				top: 200px;
+				width: 450px;
+				height: 450px;
+				padding: 10px;
+				padding-right: 5px;
+				padding-left: 15px;
+				background-color: grey;
+				border-radius: 10px;
+			}
+			#main>div{
+				font-size: 48px;
+				font-weight: bold;
+				line-height: 100px;
+				text-align: center;
+				width: 100px;
+				height: 100px;
+				margin: 10px 8px 0px 0px;
+				border-radius: 10px;
+				background-color: lightgray;
+				display: inline-block;
+				vertical-align: top;
+			}
+			p:nth-of-type(1){
+				position: fixed;
+				bottom: 150px;
+				left: 50%;
+				margin-left: -50px;
+			}
+			p{
+				position: fixed;
+				bottom: 100px;
+				left: 50%;
+				margin-left: -450px;
+				text-align: center;
+				font-size: 24px;
+				font-weight: bold;
+				margin-top: 250px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="main">
+			<div class="s1 h1 y1"></div>
+			<div class="s2 h1 y2"></div>
+			<div class="s3 h1 y3"></div>
+			<div class="s4 h1 y4"></div>
+			<div class="s1 h2 y5"></div>
+			<div class="s2 h2 y6"></div>
+			<div class="s3 h2 y7"></div>
+			<div class="s4 h2 y8"></div>
+			<div class="s1 h3 y9"></div>
+			<div class="s2 h3 y10"></div>
+			<div class="s3 h3 y11"></div>
+			<div class="s4 h3 y12"></div>
+			<div class="s1 h4 y13"></div>
+			<div class="s2 h4 y14"></div>
+			<div class="s3 h4 y15"></div>
+			<div class="s4 h4 y16"></div>
+		</div>
+		<p>得分：<span>0</span></p>
+		<p>方向键移动，数字相同则合成，合成才有得分，合到有2048则赢，赢了之后可以继续玩。</p>
+	</body>
+	<script type="text/javascript">
+		var a = [2,4,2,2];//随机给数
+		var main = document.getElementById("main");
+		var min = main.getElementsByTagName("div");
+		var sp = document.getElementsByTagName("span")[0];//得分
+		var result = false,ys = true;//辅助判断 result用来判断按键是否正确，ys用来判断数字是否合成过的，是就不再进行合成
+		var score =0;//得分
+		run();//初始化数字两个
+		bgcolor();//给颜色
+		function run(){//初始化
+			var sj1 = Math.ceil(Math.random()*16);//取随机位置
+			var sj2 = Math.ceil(Math.random()*16);//取随机位置
+			if(sj1 == sj2){//判断是否重复
+				run();
+			}else{//不重复就给数
+				var sjs1 = Math.floor(Math.random()*4);//取随机数
+				var sjs2 = Math.floor(Math.random()*4);
+				var wz1 = "y" + sj1;
+				var wz2 = "y" + sj2;
+				var div1 = document.getElementsByClassName(wz1)[0];
+				var div2 = document.getElementsByClassName(wz2)[0];//确定对象
+				div1.innerText = a[sjs1];//随机给2或4
+				div2.innerText = a[sjs2];
+			}
+		}
+		function bgcolor(){//给颜色
+			for(i = 0; i < min.length;i++){
+				var bcolor = min[i].innerText;//根据每个格子内的数字给颜色及适合的字体大小
+				if(bcolor == 2){
+					min[i].style.backgroundColor = "#fff1bc";
+					min[i].style.fontSize = "48px"
+				}else if(bcolor == 4){
+					min[i].style.backgroundColor = "#ffdc52";
+					min[i].style.fontSize = "48px"
+				}else if(bcolor == 8){
+					min[i].style.backgroundColor = "#f2c000";
+					min[i].style.fontSize = "48px"
+				}else if(bcolor == 16){
+					min[i].style.backgroundColor = "#ffa423";
+					min[i].style.fontSize = "42px"
+				}else if(bcolor == 32){
+					min[i].style.backgroundColor = "#ff8a57";
+					min[i].style.fontSize = "42px"
+				}else if(bcolor == 64){
+					min[i].style.backgroundColor = "#ff4e00";
+					min[i].style.fontSize = "42px"
+				}else if(bcolor == 128){
+					min[i].style.backgroundColor = "#b23600";
+					min[i].style.fontSize = "36px"
+				}else if(bcolor == 256){
+					min[i].style.backgroundColor = "#970000";
+					min[i].style.fontSize = "36px"
+				}else if(bcolor == 512){
+					min[i].style.backgroundColor = "#83c0ff";
+					min[i].style.fontSize = "36px"
+				}else if(bcolor == 1024){
+					min[i].style.backgroundColor = "#007eff";
+					min[i].style.fontSize = "32px"
+				}else if(bcolor == 2048){
+					min[i].style.backgroundColor = "#ff0000";
+					min[i].style.fontSize = "32px"
+				}else if(bcolor == 4096){
+					min[i].style.backgroundColor = "sandybrown";
+					min[i].style.fontSize = "32px"
+				}else if(bcolor == 8192){
+					min[i].style.backgroundColor = "lightcoral";
+					min[i].style.fontSize = "32px"
+				}else if(bcolor == 16384){
+					min[i].style.backgroundColor = "#1B9AF7";
+					min[i].style.fontSize = "28px"
+				}else if(bcolor == 32768){
+					min[i].style.backgroundColor = "darkorchid";
+					min[i].style.fontSize = "28px"
+				}else if(bcolor == 65536){
+					min[i].style.backgroundColor = "darkturquoise";
+					min[i].style.fontSize = "28px"
+				}else{
+					min[i].style.backgroundColor = "lightgray";
+				}
+			}
+		}
+		function createnum(){//随机给数一个
+			var sj = Math.floor(Math.random()*16);//取随机位置
+			var bcolor = min[sj].innerText;//该位置内的值
+			if(bcolor != ""){//如果有值重新给
+				createnum();
+			}else{
+				var sjs = Math.floor(Math.random()*4);
+				min[sj].innerText = a[sjs];
+			}
+		}
+//		function Change(){
+//			for(j = 1;j<5;j++){//选择所有行
+//				ys=true;
+//				var wz1 = "h" + j;
+//				var div1 = document.getElementsByClassName(wz1);
+//				var temp = 3;
+//				for(i=3;i>=0;i--){//对横排相邻两个进行判断
+//					var t1 = div1[temp];
+//					var t2 = div1[i];
+//					if(t2.innerText!=""){
+//						if(t1.innerText==""){
+//							result=true;
+//							t1.innerText=t2.innerText;
+//							t2.innerText="";
+//						}else if(t2.innerText==t1.innerText){
+//							if (temp == i) {
+//								continue;
+//							}
+//							t1.innerText=parseInt(t1.innerText)+parseInt(t2.innerText);
+//							t2.innerText="";
+//							result=true;
+//							temp=temp-1;
+//						}else
+//						{
+//							temp=temp-1;
+//							i++;
+//						}
+//					}
+//					else{
+//						continue;
+//					}
+//				}
+//			}
+//		}
+		window.onkeyup = function(e){
+			result=false;
+			var x = e.keyCode;
+			if(x == 39){//右
+				console.log("右");
+				for(j = 1;j<5;j++){//选择所有行
+					ys=true;
+					var wz1 = "h" + j;
+					var div1 = document.getElementsByClassName(wz1);
+						var temp = 3;
+						for(i=3;i>=0;i--){//对横排相邻两个进行判断
+							var t1 = div1[temp];
+							var t2 = div1[i];
+							if(t2.innerText!=""){
+								if(t1.innerText==""){
+									result=true;
+									t1.innerText=t2.innerText;
+									t2.innerText="";
+								}else if(t2.innerText==t1.innerText){
+									if (temp == i) {
+										continue;
+									}
+									t1.innerText=parseInt(t1.innerText)+parseInt(t2.innerText);
+									t2.innerText="";
+									result=true;
+									temp=temp-1;
+								}else
+								{
+									temp=temp-1;
+									i++;
+								}
+							}
+							else{
+								continue;
+							}
+						}
+				}
+			}
+			if(x == 37){//左
+				console.log("左");
+				for(j = 1;j<5;j++){//选择所有行
+					ys=true;
+					var wz1 = "h" + j;
+					var div1 = document.getElementsByClassName(wz1);
+						var temp = 0;
+						for(i=0;i<=3;i++){//对横排相邻两个进行判断
+							var t1 = div1[temp];
+							var t2 = div1[i];
+							if(t2.innerText!=""){
+								if(t1.innerText==""){
+									result=true;
+									t1.innerText=t2.innerText;
+									t2.innerText="";
+								}else if(t2.innerText==t1.innerText){
+									if (temp == i) {
+										continue;
+									}
+									t1.innerText=parseInt(t1.innerText)+parseInt(t2.innerText);
+									result=true;
+									t2.innerText="";
+									temp=temp+1;
+								}else
+								{
+									temp=temp+1;
+									i--;
+								}
+							}
+							else{
+								continue;
+							}
+						}
+				}
+			}
+			if(x == 38){//上
+				console.log("上");
+				for(j = 1;j<5;j++){//选择所有列
+					ys=true;
+					var wz1 = "s" + j;
+					var div1 = document.getElementsByClassName(wz1);
+						var temp = 0;
+						for(i=0;i<=3;i++){//对竖排相邻两个进行判断
+							var t1 = div1[temp];
+							var t2 = div1[i];
+							if(t2.innerText!=""){
+								if(t1.innerText==""){
+									result=true;
+									t1.innerText=t2.innerText;
+									t2.innerText="";
+								}else if(t2.innerText==t1.innerText){
+									if (temp == i) {
+										continue;
+									}
+									t1.innerText=parseInt(t1.innerText)+parseInt(t2.innerText);
+									t2.innerText="";
+									result=true;
+									temp=temp+1;
+								}else{
+									temp=temp+1;
+									i--;
+								}
+							}
+							else{
+								continue;
+							}
+						}
+				}
+			}
+			if(x == 40){//下
+				console.log("下");
+				for(j = 1;j<5;j++){//选择所有列
+					ys=true;
+					var wz1 = "s" + j;
+					var div1 = document.getElementsByClassName(wz1);
+						var temp = 3
+						for(i=3;i>=0;i--){//对竖排相邻两个进行判断
+							var t1 = div1[temp];
+							var t2 = div1[i];
+							if(t2.innerText!=""){
+								if(t1.innerText==""){
+									result=true;
+									t1.innerText=t2.innerText;
+									t2.innerText="";
+								}else if(t2.innerText==t1.innerText){
+									if (temp == i) {
+										continue;
+									}
+									t1.innerText=parseInt(t1.innerText)+parseInt(t2.innerText);
+									result=true;
+									t2.innerText="";
+									temp=temp-1;
+								}else
+								{
+									temp=temp-1;
+									i++;
+								}
+							}
+							else{
+								continue;
+							}
+						}
+				}
+			}
+			var b = 0;
+			for(i = 0; i < min.length;i++){
+				var bcolor = min[i].innerText;
+				if(bcolor == 2048){//判断赢
+					alert("你赢了！！！！！！！！！！");
+					alert("当然是第一阶段，继续努力吧");
+					alert("第二阶段是65536哦");
+				}
+				if(bgcolor == 65536){
+					alert("神迹");
+					alert("其实想说你是神经病")
+				}
+				if(bcolor != ""){
+					b++
+				}
+			}
+			var c = 0;
+			if(b == 16){
+				for(m = 1;m<5;m++){//判断输
+					var wz2 = "h" + m;
+					var wz3 = "s" + m;
+					var div2 = document.getElementsByClassName(wz2);
+					var div3 = document.getElementsByClassName(wz3);
+					for(n = 0;n<3;n++){
+						if(div2[n].innerText != div2[n+1].innerText){//判断任意横排两个数是否相等
+							c++
+						}
+						if(div3[n].innerText != div3[n+1].innerText){//判断任意竖排两个数是否相等
+							c++
+						}
+					}
+				}
+				if(c == 24){
+					alert("你输了");
+					window.location.href = "";//刷新
+				}
+			}
+			if(result) createnum();//判断并改变完毕后给一个新值
+			bgcolor();//给颜色
+		}
+	</script>
+</html>
