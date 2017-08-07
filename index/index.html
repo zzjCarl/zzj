@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="js/zepto.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			*{margin: 0;padding: 0;-webkit-box-sizing: border-box;}
+			html,body,.box{
+				width: 100%;
+				height: 100%;
+			}
+			.box{
+				overflow: hidden;
+				display: flex;
+				flex-flow: column;
+			}
+			header,footer{
+				width: 100%;
+				height: 0.4rem;
+				background-color: lightblue;
+			}
+			section{
+				flex: 1;
+				overflow: auto;
+				font-size: 0.2rem;
+				width: 100%;
+			}
+			.aa{
+			}
+			.aa::after{
+				content: "";
+				display: inline-block;
+				width: 0.2rem;
+				height: 0.2rem;
+				border-bottom: 2px solid black;
+				border-radius: 50%;
+				animation: run 1s linear infinite;
+			}
+			@keyframes run{
+				from{transform: rotate(0deg);}
+				to{transform: rotate(360deg);}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<header></header>
+			<section id="list1">
+				<ul id="list">
+					<li>01</li>
+					<li>02</li>
+					<li>03</li>
+					<li>04</li>
+					<li>05</li>
+					<li>06</li>
+					<li>07</li>
+					<li>08</li>
+					<li>09</li>
+					<li>10</li>
+					<li>11</li>
+					<li>12</li>
+					<li>13</li>
+					<li>14</li>
+					<li>15</li>
+					<li>16</li>
+					<li>17</li>
+					<li>18</li>
+					<li>19</li>
+					<li>20</li>
+					<li>21</li>
+					<li>22</li>
+					<li>23</li>
+					<li>24</li>
+					<li>25</li>
+					<li>26</li>
+					<li>27</li>
+					<li>28</li>
+					<li>29</li>
+					<li>30</li>
+					<li>31</li>
+					<li>32</li>
+					<li>33</li>
+					<li>34</li>
+					<li>35</li>
+					<li>36</li>
+					<li>37</li>
+					<li>38</li>
+					<li>39</li>
+					<li>40</li>
+				</ul>
+			</section>
+			<footer></footer>
+			</div>
+	</body>
+	<script type="text/javascript">
+		new function(){
+			document.documentElement.style.fontSize=innerWidth/3.20+"px";
+			window.addEventListener("resize",function(){
+			document.documentElement.style.fontSize=innerWidth/3.20+"px";},false);
+		}
+		var flag = false;
+		var oDiv = null;
+		$("#list1").on("touchstart",function(e){
+			var ey = e.touches[0].pageY;
+			$("#list1").on("touchmove",function(e){
+				var ty = $("#list1").scrollTop();	
+				var et = e.touches[0].pageY -ey;
+				if(et<0  && ty == 0){
+					
+				}else if(et > 0 && ty == 0){
+					if(!flag){
+						oDiv = $("<div class='aa'>").html("load...").prependTo($("#list1"));
+						flag = true;
+					}
+				}
+			});
+			$("#list1").on("touchend",function(){
+				if(oDiv){
+					var str ="";
+					$.ajax({
+						url:"deom.json",
+						method:"get",
+						success:function(data){
+							for(k in data.list){
+								str += "<li>" + data.list[k].title + "</li>";
+							}
+							var hl = $("#list").html();
+							$("#list").html(str + hl);
+						}
+					});
+					oDiv.remove();
+					flag = false;
+					oDiv = null;
+				}
+			})
+		})
+	</script>
+</html>
